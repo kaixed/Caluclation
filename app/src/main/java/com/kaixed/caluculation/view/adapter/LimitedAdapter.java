@@ -1,6 +1,8 @@
 package com.kaixed.caluculation.view.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.kaixed.caluculation.R;
 import com.kaixed.caluculation.entity.Equation;
+import com.kaixed.caluculation.entity.UniqueEquation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,16 +25,23 @@ import java.util.List;
  */
 public class LimitedAdapter extends RecyclerView.Adapter<LimitedAdapter.myViewHolder> {
 
-    private List<Equation> equations = new ArrayList<>();
+    private List<UniqueEquation> equations = new ArrayList<>();
 
     private Context mContext;
+    int selectedPosition = -1;
 
-    public LimitedAdapter(List<Equation> equations) {
+    public LimitedAdapter(List<UniqueEquation> equations) {
         this.equations = equations;
 //        this.mContext = mContext;
     }
 
-    public List<Equation> getData() {
+    @SuppressLint("NotifyDataSetChanged")
+    public void setSelectedPosition(int position) {
+        selectedPosition = position;
+        notifyDataSetChanged();
+    }
+
+    public List<UniqueEquation> getData() {
         return equations;
     }
 
@@ -46,7 +56,15 @@ public class LimitedAdapter extends RecyclerView.Adapter<LimitedAdapter.myViewHo
 
     @Override
     public void onBindViewHolder(@NonNull myViewHolder holder, int position) {
-        Equation equation = equations.get(position);
+
+        if (position == selectedPosition) {
+            holder.mTvProblem.setTextColor(Color.RED); // 或者使用其他颜色值
+        } else {
+            holder.mTvProblem.setTextColor(Color.BLACK); // 或者使用其他颜色值
+        }
+
+
+        UniqueEquation equation = equations.get(position);
         holder.bindData(equation);
     }
 
@@ -65,10 +83,10 @@ public class LimitedAdapter extends RecyclerView.Adapter<LimitedAdapter.myViewHo
             initView();
         }
 
-        public void bindData(Equation equation) {
+        public void bindData(UniqueEquation uniqueEquation) {
 
-            mTvProblem.setText(equation.getEquation());
-            mTvResult.setText(equation.getInPutValue());
+            mTvProblem.setText(uniqueEquation.getEquation());
+            mTvResult.setText(uniqueEquation.getInPutValue());
 
         }
 

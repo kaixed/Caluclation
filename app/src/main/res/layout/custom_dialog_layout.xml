@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="250dp"
+    android:layout_height="250dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="请选择你的年级: "
+        android:textColor="@color/black" />
+
+    <GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:columnCount="3"
+        android:rowCount="2">
+
+        <RadioButton
+            android:id="@+id/radioOption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1年级" />
+
+        <RadioButton
+            android:id="@+id/radioOption2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2年级" />
+
+        <RadioButton
+            android:id="@+id/radioOption3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3年级" />
+
+        <RadioButton
+            android:id="@+id/radioOption4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4年级" />
+
+        <RadioButton
+            android:id="@+id/radioOption5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5年级" />
+
+        <RadioButton
+            android:id="@+id/radioOption6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="6年级" />
+
+    </GridLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="请选择每次生成题目的书目: "
+        android:textColor="@color/black" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15" />
+
+        <RadioButton
+            android:id="@+id/rb_30"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="30" />
+
+        <RadioButton
+            android:id="@+id/rb_40"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="40" />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/bac_1"
+        android:text="保存"
+        android:textColor="@color/white">
+
+    </Button>
+
+</LinearLayout>

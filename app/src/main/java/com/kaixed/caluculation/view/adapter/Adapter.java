@@ -1,6 +1,8 @@
 package com.kaixed.caluculation.view.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,10 +28,17 @@ public class Adapter extends RecyclerView.Adapter<Adapter.myViewHolder> {
     private List<Equation> equations = new ArrayList<>();
 
     private Context mContext;
+    int selectedPosition = -1;
 
     public Adapter(List<Equation> equations) {
         this.equations = equations;
 //        this.mContext = mContext;
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void setSelectedPosition(int position) {
+        selectedPosition = position;
+        notifyDataSetChanged();
     }
 
     public List<Equation> getData() {
@@ -41,13 +50,17 @@ public class Adapter extends RecyclerView.Adapter<Adapter.myViewHolder> {
     @Override
     public myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_equation, parent, false);
-
         return new myViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull myViewHolder holder, int position) {
         Equation equation = equations.get(position);
+        if (position == selectedPosition) {
+            holder.mTvProblem.setTextColor(Color.RED);
+        } else {
+            holder.mTvProblem.setTextColor(Color.BLACK);
+        }
         holder.bindData(equation);
     }
 
@@ -69,13 +82,16 @@ public class Adapter extends RecyclerView.Adapter<Adapter.myViewHolder> {
         }
 
         public void bindData(Equation equation) {
-
             mTvProblem.setText(equation.getEquation());
             mTvResult.setText(equation.getInPutValue());
-            if (!equation.getInPutValue().isEmpty() && equation.getResult().equals(equation.getInPutValue())) {
-                mScbTrue.setChecked(true);
-            }
 
+            if (!equation.getInPutValue().isEmpty() && equation.isTrue()) {
+                mScbTrue.setChecked(true);
+                mScbTrue.setVisibility(View.VISIBLE);
+            } else {
+                mScbTrue.setChecked(false);
+                mScbTrue.setVisibility(View.GONE);
+            }
         }
 
         public void initView() {
@@ -84,6 +100,5 @@ public class Adapter extends RecyclerView.Adapter<Adapter.myViewHolder> {
             mScbTrue = itemView.findViewById(R.id.haha);
             mScbTrue.setClickable(false);
         }
-
     }
 }

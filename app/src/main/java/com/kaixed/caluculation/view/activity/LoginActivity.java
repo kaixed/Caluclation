@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.SpannableString;
@@ -18,9 +19,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.kaixed.caluculation.R;
+import com.kaixed.caluculation.common.AppDatabase;
+import com.kaixed.caluculation.entity.User;
 
 /**
  * @author hui
@@ -57,12 +61,40 @@ public class LoginActivity extends AppCompatActivity {
         mEtPasswd.addTextChangedListener(textWatcher);
 
         mBtnLogin.setOnClickListener(view -> {
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            String username = mEtUsername.getText().toString();
+            String passwd = mEtPasswd.getText().toString();
+            loginUser(username, passwd);
         });
 
     }
+
+    private void loginUser(String username, String passwd) {
+
+
+        // 在后台线程中执行数据库操作
+        AsyncTask.execute(() -> {
+            AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
+
+            // 检查用户是否存在
+            User user = db.userDao().getUserByUsername(username);
+
+            if (user == null) {
+                runOnUiThread(() -> Toast.makeText(LoginActivity.this, "用户不存在", Toast.LENGTH_SHORT).show());
+            } else {
+                // 检查密码是否匹配
+                if (user.password.equals(passwd)) {
+                    runOnUiThread(() -> {
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    });
+                } else {
+                    runOnUiThread(() -> Toast.makeText(LoginActivity.this, "密码错误", Toast.LENGTH_SHORT).show());
+                }
+            }
+        });
+    }
+
 
     TextWatcher textWatcher = new TextWatcher() {
         @Override
@@ -133,6 +165,8 @@ public class LoginActivity extends AppCompatActivity {
 
         }
     }
+
+
 
     public void initView() {
         mTvRegister = findViewById(R.id.tv_register);

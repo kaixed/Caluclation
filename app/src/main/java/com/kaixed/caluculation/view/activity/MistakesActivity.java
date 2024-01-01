@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.kaixed.caluculation.R;
+import com.kaixed.caluculation.common.AppDatabase;
 import com.kaixed.caluculation.entity.Mistakes;
 import com.kaixed.caluculation.view.adapter.MistakesAdapter;
 
@@ -17,6 +19,7 @@ import java.util.List;
 public class MistakesActivity extends AppCompatActivity {
 
     private RecyclerView mRecycleMistakes;
+    private List<Mistakes> mistakes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,24 +27,28 @@ public class MistakesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mistakes);
         ImmersionBar.with(this).statusBarDarkFont(true).init();
 
-
+        mistakes = new ArrayList<>();
         initView();
+        getAllItems();
 
-        mRecycleMistakes.setAdapter(new MistakesAdapter(getData()));
-        mRecycleMistakes.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+    }
+
+    private void getAllItems() {
+        AsyncTask.execute(() -> {
+            AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
+
+            mistakes = db.mistakesDao().getAllItems();
+
+            mRecycleMistakes.setAdapter(new MistakesAdapter(mistakes));
+            mRecycleMistakes.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+        });
     }
 
     private void initView() {
         mRecycleMistakes = findViewById(R.id.recycle_mistakes);
     }
 
-    private static List<Mistakes> getData() {
-        List<Mistakes> mistakes = new ArrayList<>();
 
-        mistakes.add(new Mistakes("1+1", "2", "23", "30", 1));
-        mistakes.add(new Mistakes("1+1", "2", "23", "30", 1));
-        mistakes.add(new Mistakes("1+1", "2", "23", "30", 1));
-
-        return mistakes;
-    }
 }
