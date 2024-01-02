@@ -105,8 +105,6 @@ public class LimitedActivity extends AppCompatActivity {
         int group = sp.getInt("group", 0);
         int counts = sp.getInt("counts", 15);
 
-
-
         NewFourNum questionGenerator = new NewFourNum(group + 1, counts);
 
         for (Equation equation : questionGenerator.getEquations()) {

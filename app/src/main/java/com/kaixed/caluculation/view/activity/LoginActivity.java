@@ -69,15 +69,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginUser(String username, String passwd) {
-
-
         // 在后台线程中执行数据库操作
         AsyncTask.execute(() -> {
             AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
-
             // 检查用户是否存在
             User user = db.userDao().getUserByUsername(username);
-
             if (user == null) {
                 runOnUiThread(() -> Toast.makeText(LoginActivity.this, "用户不存在", Toast.LENGTH_SHORT).show());
             } else {
@@ -115,10 +111,8 @@ public class LoginActivity extends AppCompatActivity {
 
     public void setRegisterText() {
         String str = "还没有用户？点击注册";
-
         int startIndex = str.indexOf("点击注册");
         int endIndex = startIndex + "点击注册".length();
-
 
         SpannableString spannableString = new SpannableString(str);
 

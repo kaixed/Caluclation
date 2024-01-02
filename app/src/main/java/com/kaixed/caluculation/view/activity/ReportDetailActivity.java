@@ -49,18 +49,14 @@ public class ReportDetailActivity extends AppCompatActivity {
     }
 
     private void findItemsWithId(String equationId) {
-
         // 在后台线程中执行数据库操作
         AsyncTask.execute(() -> {
             int a = 0;
             int b = 0;
             AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
-
             uniqueEquationList = db.equationDao().findItemsWithId(equationId);
-
             mRecycleReportDetail.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
             mRecycleReportDetail.setAdapter(new ReportDetailAdapter(uniqueEquationList));
-
             total = uniqueEquationList.size();
             for (UniqueEquation un : uniqueEquationList) {
 

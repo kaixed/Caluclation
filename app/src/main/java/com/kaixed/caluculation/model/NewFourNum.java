@@ -364,16 +364,4 @@ public class NewFourNum {
         return equations;
     }
 
-//    public static void main(String[] args) {
-//
-//
-//        // 打印生成的算式
-//        for (Equation equation : equations) {
-//            System.out.println("Equation: " + equation.getEquation());
-//            System.out.println("Result: " + equation.getResult());
-//            System.out.println("User Input: " + equation.getInPutValue());
-//            System.out.println("Is True: " + equation.isTrue());
-//            System.out.println();
-//        }
-//    }
 }

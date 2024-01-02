@@ -54,9 +54,9 @@ public class RegisterActivity extends AppCompatActivity {
             String rePasswd = mEtRePasswd.getText().toString();
 
             if (!username.isEmpty() && !passwd.isEmpty() && !rePasswd.isEmpty()) {
-                if (passwd.equals(rePasswd)){
+                if (passwd.equals(rePasswd)) {
                     registerUser(username, passwd);
-                }else {
+                } else {
                     Toast.makeText(this, "两次密码输入不一致", Toast.LENGTH_SHORT).show();
                 }
 
@@ -109,25 +109,20 @@ public class RegisterActivity extends AppCompatActivity {
     };
 
     private void registerUser(String username, String passwd) {
-
         // 在后台线程中执行数据库操作
         AsyncTask.execute(() -> {
             AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
-
             // 检查用户是否存在
             User existingUser = db.userDao().getUserByUsername(username);
             if (existingUser != null) {
                 runOnUiThread(() -> Toast.makeText(RegisterActivity.this, "用户名已存在", Toast.LENGTH_SHORT).show());
                 return;
             }
-
             // 创建新用户并插入数据库
             User newUser = new User();
             newUser.username = username;
             newUser.password = passwd;
-
             db.userDao().insert(newUser);
-
             runOnUiThread(() -> {
                 Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
                 finish(); // 注册成功后关闭当前Activity
